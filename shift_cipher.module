@@ -88,9 +88,10 @@ function encrypt($shift_value, $direction, $phrase) {
 function shift($ascii, $shift_value) {
     $new_value = $ascii + $shift_value;
 
-    if ($new_value < 97) {
+    while ($new_value < 97) {
         $new_value = 123 - (97 - $new_value);
-    } elseif ($new_value > 122) {
+    }
+    while ($new_value > 122) {
         $new_value = 96 + ($new_value - 122);
     }
 
