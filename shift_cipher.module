@@ -73,13 +73,26 @@ function encrypt($shift_value, $direction, $phrase) {
         $shift_value *= -1;
     }
 
-    $encrypted_phrase = '';
+    $phrase = strtolower($phrase);
     $chars = str_split($phrase);
+    $encrypted_phrase = '';
 
     foreach ($chars as $char) {
         $ascii = ord($char);
-        $encrypted_phrase .= ctype_alpha($char) ? chr($ascii + $shift_value) : $char;
+        $encrypted_phrase .= ctype_alpha($char) ? shift($ascii, $shift_value) : $char;
     }
 
     return $encrypted_phrase;
+}
+
+function shift($ascii, $shift_value) {
+    $new_value = $ascii + $shift_value;
+
+    if ($new_value < 97) {
+        $new_value = 123 - (97 - $new_value);
+    } elseif ($new_value > 122) {
+        $new_value = 96 + ($new_value - 122);
+    }
+
+    return chr($new_value);
 }
