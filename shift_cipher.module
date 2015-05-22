@@ -29,6 +29,11 @@ function shift_cipher_form() {
         '#options' => array('left' => 'left', 'right' => 'right'),
         '#description' => t('Choose direction of shift'),
     );
+    $form['phrase'] = array(
+        '#title' => 'phrase',
+        '#type' => 'textfield',
+        '#description' => t('Enter phrase to encrypt'),
+    );
     $form['submit'] = array(
         '#value' => 'Encrypt!',
         '#type' => 'submit',
@@ -39,9 +44,10 @@ function shift_cipher_form() {
 function shift_cipher_form_submit($form, &$form_state) {
     $_SESSION['shift_value'] = $form_state['values']['shift_value'];
     $_SESSION['direction'] = $form_state['values']['direction'];
+    $_SESSION['phrase'] = $form_state['values']['phrase'];
     $form_state['redirect'] = 'shift_cipher_success';
 }
 
 function shift_cipher_success() {
-    return '<p>shift value = ' . $_SESSION['shift_value'] . '</p><p>direction = ' . $_SESSION['direction'] . '</p>';
+    return '<p>shift value = ' . $_SESSION['shift_value'] . '</p><p>direction = ' . $_SESSION['direction'] . '</p><p>phrase = ' . $_SESSION['phrase'] . '</p>';
 }
