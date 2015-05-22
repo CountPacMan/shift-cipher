@@ -69,6 +69,10 @@ function element_validate_proper_phrase($element) {
 }
 
 function encrypt($shift_value, $direction, $phrase) {
+    if ($direction == 'left') {
+        $shift_value *= -1;
+    }
+
     $encrypted_phrase = '';
     $chars = str_split($phrase);
 
