@@ -20,6 +20,7 @@ function shift_cipher_form() {
     $form['shift_value'] = array(
         '#title' => 'shift value',
         '#type' => 'textfield',
+        '#element_validate' => array('element_validate_integer_positive'),
         '#description' => t('Enter number of places by which to shift each letter'),
     );
     $form['submit'] = array(
