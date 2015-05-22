@@ -43,14 +43,16 @@ function shift_cipher_form() {
 }
 
 function shift_cipher_form_submit($form, &$form_state) {
-    $_SESSION['shift_value'] = $form_state['values']['shift_value'];
-    $_SESSION['direction'] = $form_state['values']['direction'];
-    $_SESSION['phrase'] = $form_state['values']['phrase'];
+    $shift_value = $_SESSION['shift_value'] = $form_state['values']['shift_value'];
+    $direction = $_SESSION['direction'] = $form_state['values']['direction'];
+    $phrase = $_SESSION['phrase'] = $form_state['values']['phrase'];
+
+    $_SESSION['encrypted_phrase'] = encrypt($shift_value, $direction, $phrase);
     $form_state['redirect'] = 'shift_cipher_success';
 }
 
 function shift_cipher_success() {
-    return '<p>shift value = ' . $_SESSION['shift_value'] . '</p><p>direction = ' . $_SESSION['direction'] . '</p><p>phrase = ' . $_SESSION['phrase'] . '</p>';
+    return '<p>shift value = ' . $_SESSION['shift_value'] . '</p><p>direction = ' . $_SESSION['direction'] . '</p><p>phrase = ' . $_SESSION['phrase'] . '</p><p>encrypted = ' . $_SESSION['encrypted_phrase'] . '</p>';
 }
 
 function element_validate_proper_phrase($element) {
@@ -64,4 +66,16 @@ function element_validate_proper_phrase($element) {
             form_error($element, t("$element_title must contain only letters, spaces, and punctuation"));
         }
     }
+}
+
+function encrypt($shift_value, $direction, $phrase) {
+    $encrypted_phrase = '';
+    $chars = str_split($phrase);
+
+    foreach ($chars as $char) {
+        $ascii = ord($char);
+        $encrypted_phrase .= ctype_alpha($char) ? chr($ascii + $shift_value) : $char;
+    }
+
+    return $encrypted_phrase;
 }
